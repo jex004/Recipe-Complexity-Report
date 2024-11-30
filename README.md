@@ -35,3 +35,37 @@ The second dataset is called `interactions`. It contains 731927 rows that each r
 | `'date'`      | Date of interaction |
 | `'rating'`    | Rating given        |
 | `'review'`    | Review text         |
+
+## Data Cleaning and Exploratory Data Analysis
+
+### Data Cleaning
+
+Before continuing with our analysis, it is important to clean the data to ensure our data is accurate and organized, and to better understand the contents of our data.
+These are the steps we followed:
+
+1. Left merged the `recipe` and `interactions` datasets together on `'id'` and `'recipe_id'`.
+2. 
+
+<iframe src="cleaned_df.html" width="100%" height="400"></iframe>
+
+## Assessment of Missingness
+
+
+
+## Hypothesis Testing
+
+
+
+## Framing a Prediction Problem
+
+
+
+## Baseline Model
+
+
+
+## Final Model
+
+
+
+## Fairness Analysis
