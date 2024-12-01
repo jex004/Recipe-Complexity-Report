@@ -50,6 +50,10 @@ These are the steps we followed:
 5. Created a column of boolean values `'is_easy'` where it is True if the recipe's tags contain the 'easy' or 'beginner-cook' tags
 6. Created a column of boolean values `'is_kid_friendly'` where it is True if the recipe's tags contain the 'kid-friendly' tag
 
+Below is our cleaned dataframe `cleaned_df`
+
+<iframe src="assets/cleaned_df.html" width="100%" height="400px" frameborder="0"></iframe>
+
 ### Univariate Data
 
 
