@@ -44,9 +44,19 @@ Before continuing with our analysis, it is important to clean the data to ensure
 These are the steps we followed:
 
 1. Left merged the `recipe` and `interactions` datasets together on `'id'` and `'recipe_id'`.
-2. 
+2. Filled all null values in `'rating'` with 0 values (insert explanation)(do i need to keep avg rating even tho i dont use it at all)
+3. Extracted only relevant columns `'name'`, `'minutes'`, `'n_steps'`, `'n_ingredients'`, `'tags'`. We chose these columns because we believe that they could all potentially contribute to the complexity of a recipe.
+4. Created a column of integers `'n_reviews'` that contains the total amount of reviews for each recipe
+5. Created a column of boolean values `'is_easy'` where it is True if the recipe's tags contain the 'easy' or 'beginner-cook' tags
+6. Created a column of boolean values `'is_kid_friendly'` where it is True if the recipe's tags contain the 'kid-friendly' tag
 
-<iframe src="cleaned_df.html" width="100%" height="400"></iframe>
+### Univariate Data
+
+
+
+### Bivariate Data
+
+
 
 ## Assessment of Missingness
 
