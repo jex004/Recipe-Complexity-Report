@@ -1,5 +1,5 @@
 # An Analysis on the Relationship Between Recipe Complexity and Recipe Popularity
-Report by Jenny Xu and Claire Lee
+Report by Jenny Xu & Claire Lee
 
 ## Overview
 
@@ -90,6 +90,23 @@ Unlike `'review'`, we believe that the missingness in the `'description'` column
 
 ## Hypothesis Testing
 
+**Null Hypothesis (H₀):** Tagging a recipe as easy does not significantly affect the number of reviews that the recipe receives.
+
+**Alternative Hypothesis (H₁):** Tagging a recipe as easy significantly increases the number of reviews that the recipe receives.
+
+**Test Statistics:** We will use the difference of means in number of reviews between recipes that were tagged as easy and those that were not.
+
+**Significance Level:** 0.05
+
+### Running a Permutation Test
+
+(why we chose permutation test)
+
+**p-value:** 0.0
+
+### Permutation Test Conclusion
+
+Since our p-value of 0.0 is less than our significane level of 0.05, we reject our null hypothesis.
 
 
 ## Framing a Prediction Problem
