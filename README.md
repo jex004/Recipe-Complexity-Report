@@ -52,9 +52,31 @@ These are the steps we followed:
 7. Removed the recipe "_____". When combing through our data for null values, we found that this particular recipe has null values in (insert col names). This is likely due to the recipe being included in the recipes dataset, but not in the interactions dataset. In other words, this recipe has no reviews. Since there is only one recipe with zero reviews, we treated it as an outlier and removed it.
 <iframe src="assets/cleaned_df.html" width="100%" height="400px" frameborder="0"></iframe>
 
-These are the columns we kept:
+These are the columns we ended up with:
 
-(insert table)
+| Column                  | Description    |
+| :---------------------- | :------------- |
+| `'name'`                | object         |
+| `'id'`                  | int64          |
+| `'minutes'`             | int64          |
+| `'contributor_id'`      | int64          |
+| `'submitted'`           | datetime64[ns] |
+| `'tags'`                | object         |
+| `'nutrition'`           | object         |
+| `'n_steps'`             | int64          |
+| `'steps'`               | object         |
+| `'description'`         | object         |
+| `'ingredients'`         | object         |
+| `'n_ingredients'`       | int64          |
+| `'user_id'`             | float64        |
+| `'recipe_id'`           | float64        |
+| `'date'`                | datetime64[ns] |
+| `'rating'`              | float64        |
+| `'review'`              | object         |
+| `'avg_rating'`          | object         |
+| `n_reviews`             | float64        |
+| `'is_easy'`             | bool           |
+| `'is_kid_friendly'`     | bool           |
 
 Below is our cleaned dataframe `cleaned_df`
 
@@ -62,10 +84,14 @@ Below is our cleaned dataframe `cleaned_df`
 
 ### Univariate Data
 
+For univariate data analysis, we examined the distribution of the the number of steps each recipe has. In the plot below, it is clear that the distribution of number of steps is skewed right, indicating that most of the recipes on [food.com](https://www.food.com/) have lower numbers of steps. The right skew of the distribution also suggests that as the number of steps increases, the number of recipes with that many steps on [food.com](https://www.food.com/) decreases.
+
 
 
 
 ### Bivariate Data
+
+For bivariate data analysis, we examined the relationship between the distribution of the number of steps each recipe has and the number of reviews each recipe has. In the plot below, as per the trendline, we can see that as the number of steps a recipe takes increases, the number of reviews it has also increases, suggesting a positive trend between number of steps and number of reviews. Later, we can see if this relationship affects our predictions of number of reviews at all.
 
 
 
@@ -125,7 +151,7 @@ We also kept the `'n_reviews'` column as it is what we are trying to predict.
 
 ## Baseline Model
 
-
+chose mse bc we care abt outliers. Clearly if someone's doing smth right if they have a lot of reviews. maybe keep the napa whatever breakfast casserole?
 
 ## Final Model
 
