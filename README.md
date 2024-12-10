@@ -83,7 +83,7 @@ These are the columns we ended up with:
 Below is our cleaned dataframe `cleaned_df`
 
 (insert df)
-print(cleaned_df.head().to_markdown(index = False)
+print(cleaned_df.head().to_markdown(index = False))
 
 ### Univariate Data
 
