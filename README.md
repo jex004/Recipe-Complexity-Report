@@ -84,6 +84,8 @@ Below is our cleaned dataframe `cleaned_df`
 
 *Some outputs have been truncated for nicer viewing
 
+<div style="overflow-x:auto;">
+
 | name                                 |     id |   minutes |   contributor_id | submitted   | tags                                                                                     | nutrition                                    |   n_steps | steps                                                 | description                                           | ingredients                                           |   n_ingredients |          user_id |   recipe_id | date       |   rating | review                                                |   avg_rating |   n_interactions | is_easy   | is_kid_friendly   |
 |:-------------------------------------|-------:|----------:|-----------------:|:------------|:-----------------------------------------------------------------------------------------|:---------------------------------------------|----------:|:------------------------------------------------------|:------------------------------------------------------|:------------------------------------------------------|----------------:|-----------------:|------------:|:-----------|---------:|:------------------------------------------------------|-------------:|-----------------:|:----------|:------------------|
 | 1 brownies in the world    best ever | 333281 |        40 |           985201 | 2008-10-27  | ['60-minutes-or-less',  'time-to-make',  'course',  'main-ingredient',  'preparation'... | [138.4, 10.0, 50.0, 3.0, 3.0, 19.0, 6.0]     |        10 | ['heat the oven to 350f and arrange the rack in th... | these are the most; chocolatey, moist, rich, dense... | ['bittersweet chocolate', 'unsalted butter', 'eggs... |               9 | 386585           |      333281 | 2008-11-19 |        4 | These were pretty good, but took forever to bake. ... |            4 |                1 | False     | False             |
@@ -92,6 +94,7 @@ Below is our cleaned dataframe `cleaned_df`
 | 412 broccoli casserole               | 306168 |        40 |            50969 | 2008-05-30  | ['60-minutes-or-less',  'time-to-make',  'course',  'main-ingredient',  'preparation'... | [194.8, 20.0, 6.0, 32.0, 22.0, 36.0, 3.0]    |         6 | ['preheat oven to 350 degrees', 'spray a 2 quart b... | since there are already 411 recipes for broccoli c... | ['frozen broccoli cuts', 'cream of chicken soup', ... |               9 |      1.19628e+06 |      306168 | 2009-04-13 |        5 | I made this for my son's first birthday party this... |            5 |                4 | True      | False             |
 | 412 broccoli casserole               | 306168 |        40 |            50969 | 2008-05-30  | ['60-minutes-or-less',  'time-to-make',  'course',  'main-ingredient',  'preparation'... | [194.8, 20.0, 6.0, 32.0, 22.0, 36.0, 3.0]    |         6 | ['preheat oven to 350 degrees', 'spray a 2 quart b... | since there are already 411 recipes for broccoli c... | ['frozen broccoli cuts', 'cream of chicken soup', ... |               9 | 768828           |      306168 | 2013-08-02 |        5 | Loved this.  Be sure to completely thaw the brocco... |            5 |                4 | True      | False            |
 
+</div>
 
 
 ### Univariate Data
