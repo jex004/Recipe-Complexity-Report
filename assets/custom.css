@@ -1,0 +1,21 @@
+/* Set the background color of the entire page to white */
+body {
+    background-color: #fafafa !important; /* Light whitish background */
+    color: #333; /* Optional: Adjust text color for better contrast */
+}
+
+/* Set the background color of the table and its container to white */
+table {
+    background-color: #fafafa !important;
+}
+
+/* For table wrappers or containers, if any */
+.table-responsive {
+    background-color: #fafafa !important;
+}
+
+/* Optional: Set code block and pre-block background to lighter colors if necessary */
+pre, code {
+    background-color: #f9f9f9 !important;  /* Lighter background for code blocks */
+    color: #333; /* Ensure the text is readable */
+}
