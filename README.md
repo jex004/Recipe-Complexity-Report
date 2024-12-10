@@ -214,6 +214,23 @@ Our model has an R<sup>2</sup> value of 0.8343, meaning around 83.43% of the var
 
 ## Final Model
 
+The features we added are `'is_kid_friendly'` and `'is_easy'`, both nominal features because they both contain boolean values. 
+
+__
+State the features you added and why they are good for the data and prediction task. Note that you can’t simply state “these features improved my accuracy”, since you’d need to choose these features and fit a model before noticing that – instead, talk about why you believe these features improved your model’s performance from the perspective of the data generating process.
+__
+
+The modeling algorithm we chose, like our baseline model, is a Random Forest Regressor. The hyperparameters that worked the best were `'minutes'`, `'n_steps'`, `'n_ingredients'`, `'is_kid_friendly'`, and `'is_easy'`. 
+
+We decided to use Random Forest because it 
+
+
+Our final model has an R<sup>2</sup> value of 0.8945, which is an improvement from our baseline model performance(R<sup>2</sup> value of0.8343).
+
+
+__
+Describe the modeling algorithm you chose, the hyperparameters that ended up performing the best, and the method you used to select hyperparameters and your overall model. Describe how your Final Model’s performance is an improvement over your Baseline Model’s performance.
+__
 
 
 ## Fairness Analysis
