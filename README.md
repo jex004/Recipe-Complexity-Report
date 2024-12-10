@@ -51,7 +51,7 @@ These are the steps we followed:
 6. Removed the recipe "how to preserve a husband". This recipe was uploaded as a joke since preserving a husband is not actually a valid recipe.
 7. Removed the recipe "napa dave s individual breakfast casseroles". When combing through our data for null values, we found that this particular recipe has null values in `'user_id'`, `'recipe_id'`, `'date'`, `'review'`, and `'avg_rating'`. This is likely due to the recipe being included in the recipes dataset, but not in the interactions dataset. In other words, this recipe has no reviews. Since there is only one recipe with zero reviews, we treated it as an outlier and removed it.
 
-ask jenny abt this
+
 <iframe src="assets/cleaned_df.html" width="100%" height="400px" frameborder="0"></iframe>
 
 These are the columns we ended up with:
@@ -76,7 +76,7 @@ These are the columns we ended up with:
 | `'rating'`              | float64        |
 | `'review'`              | object         |
 | `'avg_rating'`          | object         |
-| `n_reviews`             | float64        |
+| `n_interactions`        | float64        |
 | `'is_easy'`             | bool           |
 | `'is_kid_friendly'`     | bool           |
 
@@ -117,9 +117,15 @@ For bivariate data analysis, we examined the relationship between the distributi
   frameborder="0"
 ></iframe>
 
-
 ### Interesting Aggregates
+The grouped table below shows the total number of interactions each year's recipes received, separated by the rating the interactions gave the recipes. This data shows us an insight into the rating distribution, possible recipe quality, and engagement patterns. For example, we can see that the total number of interactions that rated recipes a 5 has generally decreased over time, from 173,244 total interactions rating recipes a 5 in the year 2008, to 94,147 in the year 2018. We can also see that the total number of interactions that rated recipes a 1 has generally increased over time, with 891 total interactions rating a recipe a 1 in 2008, to 10,222 interactions in 2018. These trends may show the difference in how people engage with the recipes(changing from possibly choosing to leave ratings if they particularly loved a recipe in 2008, to leaving a rating if they hated a recipe by 2018), or show how the quality of recipes has gone down over the years.
 
+<iframe
+  src="assets/grouped_table.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 
 ## Assessment of Missingness
