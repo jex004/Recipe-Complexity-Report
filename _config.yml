@@ -1,5 +1,10 @@
 remote_theme: pages-themes/slate@v0.2.0
 plugins:
 - jekyll-remote-theme # add this line to the plugins list if you already have one
-include:
-- assests/custom.css
+
+defaults:
+  - scope:
+      path: ""
+    values:
+      head:
+        - "<script src='/assets/js/custom.js'></script>"  # Include your custom.js in the head section of every page
