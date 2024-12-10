@@ -113,7 +113,7 @@ When investigating NaN values in our dataframe, we discovered that the columns `
 
 ### NMAR Analysis
 
-We believe that the missingness in the `'review'` column is NMAR because whether not a review is left is the user's choice. They may leave a rating but not a review because they did not feel strongly enough about a recipe to warrant a full blown review, or perhaps they just prefer not to leave review in general. In order to confirm that this missingness is indeed NMAR and not MAR though, we would need data on either how the user felt about the recipe, which could be indicated by rating, or their general preferences when it comes to leaving reviews, which is data we do not have.
+We believe that the missingness in the `'review'` column is NMAR because whether not a review is left is the user's choice. They may leave a rating but not a review because they did not feel strongly enough about a recipe to warrant a full blown review, or perhaps they just prefer not to leave review in general. In order to confirm that this missingness is indeed NMAR and not MAR though, we would need data on either how the user felt about the recipe, which could be indicated by rating, or their general preferences when it comes to leaving reviews. So, we may want to obtain a numerical rating and a boolean value about their usual review preferences that could explain NMAR missingness for the `'review'` column.
 
 ### Missingness Dependency
 
@@ -123,9 +123,12 @@ Unlike `'review'`, we believe that the missingness in the `'description'` column
 
 **Alternative Hypothesis:** The missingness of recipe descriptions does depend on the year the recipe was submitted.
 
-**Test Statistic:** someone help me choose between abs diff in means and ks stat bc i ran tests for both.
+**Test Statistic:** TVD(total variation distiance) between the observed missingness distribution for each year and the distribution obtained after shuffling the `'year'` column.
 
 **Significance Level:** 0.05
+
+**Hypothesis Test Conclusion:** We obtained a p-value of 0.4529. Since this is significantly greater than our significance level of 0.05, we fail to reject the null hypothesis. We do not have sufficient evidence to suggest that the missingness of recipe descriptions depends on the year the the recipe was submitted.
+
 
 ## Hypothesis Testing
 
@@ -139,32 +142,41 @@ Unlike `'review'`, we believe that the missingness in the `'description'` column
 
 ### Running a Permutation Test
 
-(why we chose permutation test)
+We chose a permutation test because we are trying to see whether tagging a recipe as easy and not tagging a recipe as easy comje from different population distributions, or that they come from different data generating processes. Our test statistic needs to measure how different two numerical distributions are, which is why we chose to use the difference of means.
 
 **p-value:** 0.0
 
 ### Permutation Test Conclusion
 
-Since our p-value of 0.0 is less than our significane level of 0.05, we reject our null hypothesis.
+Since our p-value of 0.0 is less than our significane level of 0.05, we reject our null hypothesis. We have sufficient evidence to suggest that tagging a recipe as easy significantly increases the number of reviews that the recipe receives.
 
 
 ## Framing a Prediction Problem
+
+**Prediction Problem:** Can we predict the number of reviews a recipe has based on how complex the recipe is?
+
+We chose a regression problem, with our response variable being the `'n_interactions'` column. We chose this variable because we want to predict the number of interactions each recipe receives based on other features that might tell us how complex the reicpe is. We also chose R<sup>2</sup> as our metric for evaluation. We chose to use R<sup>2</sup> as our metric instead of MSE, because MSE gives us a measure of the magnitude of error between the predicted and actual values. Additionally,MSE would not be able to offer a direct comparison between different models, so we would not be able to evaluate whether a certain model is better at predicting the number of reviews a recipe has. R<sup>2</sup>, on the other hand, is able to tell us how well the model's predictions fit the data, and provides an easier way of understanding how much of the variability in n_interactions is explained by the model.
 
 We first created a new dataframe `filtered_df` containing only the columns we need for the remainder of this report.
 
 We believe that each of the following columns either contribute or indicate the complexity of a recipe:
 
-- `'minutes'` - The longer a recipe takes to complete, the more complex it is
-- `'n_steps'` - The more steps a recipe takes, the more complex it is
-- `'n_ingredients'` - Recipes that require more recipes can be considered more complex
-- `'is_easy'` - 
-- `'is_kid_friendly'` - 
+- `'minutes'` - The longer a recipe takes to complete, the more complex it may be
+- `'n_steps'` - The more steps a recipe takes, the more complex it may be
+- `'n_ingredients'` - Recipes that require more ingredients can be considered more complex
+- `'is_easy'` - Recipes that contain the easy|beginner tag may be less complex than recipes that do not contain this tag
+- `'is_kid_friendly'` - Recipes that contain the kid-friendly tag may be less complex than recipes that do not contain this tag
 
-We also kept the `'n_reviews'` column as it is what we are trying to predict.
+We also kept the `'n_interactions'` column as it is what we are trying to predict.
+
 
 ## Baseline Model
 
-chose mse bc we care abt outliers. Clearly if someone's doing smth right if they have a lot of reviews. maybe keep the napa whatever breakfast casserole?
+Our baseline model uses a Random Forest Regressor, which reduces the risk of overfitting because it aggregates the results of multiple decision trees. The subset of features we chose from our `filtered_df` dataframe are: 
+
+__
+Describe your model and state the features in your model, including how many are quantitative, ordinal, and nominal, and how you performed any necessary encodings. Report the performance of your model and whether or not you believe your current model is “good” and why.
+__
 
 ## Final Model
 
