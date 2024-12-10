@@ -1,1 +1,1 @@
-document.body.style.overflowX = 'hidden';
+document.body.style.overflowX = 'scroll';
