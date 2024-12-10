@@ -49,7 +49,9 @@ These are the steps we followed:
 4. Created a column of boolean values `'is_easy'` where it is True if the recipe's tags contain the 'easy' or 'beginner-cook' tags
 5. Created a column of boolean values `'is_kid_friendly'` where it is True if the recipe's tags contain the 'kid-friendly' tag
 6. Removed the recipe "how to preserve a husband". This recipe was uploaded as a joke since preserving a husband is not actually a valid recipe.
-7. Removed the recipe "napa dave s individual breakfast casseroles". When combing through our data for null values, we found that this particular recipe has null values in `'user_id', 'recipe_id', 'date', 'review', 'avg_rating'`. This is likely due to the recipe being included in the recipes dataset, but not in the interactions dataset. In other words, this recipe has no reviews. Since there is only one recipe with zero reviews, we treated it as an outlier and removed it.
+7. Removed the recipe "napa dave s individual breakfast casseroles". When combing through our data for null values, we found that this particular recipe has null values in `'user_id'`, `'recipe_id'`, `'date'`, `'review'`, and `'avg_rating'`. This is likely due to the recipe being included in the recipes dataset, but not in the interactions dataset. In other words, this recipe has no reviews. Since there is only one recipe with zero reviews, we treated it as an outlier and removed it.
+
+ask jenny abt this
 <iframe src="assets/cleaned_df.html" width="100%" height="400px" frameborder="0"></iframe>
 
 These are the columns we ended up with:
@@ -81,6 +83,7 @@ These are the columns we ended up with:
 Below is our cleaned dataframe `cleaned_df`
 
 (insert df)
+print(cleaned_df.head().to_markdown(index = False)
 
 ### Univariate Data
 
