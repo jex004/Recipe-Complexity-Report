@@ -4,3 +4,4 @@ assets/bivariate_data.html filter=lfs diff=lfs merge=lfs -text
 assets/fig_n_steps.html filter=lfs diff=lfs merge=lfs -text
 assets/missingness_data.html filter=lfs diff=lfs merge=lfs -text
 assets/missingness_plot.html filter=lfs diff=lfs merge=lfs -text
+assets/fairness.html filter=lfs diff=lfs merge=lfs -text
