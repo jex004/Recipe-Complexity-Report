@@ -172,14 +172,38 @@ We also kept the `'n_interactions'` column as it is what we are trying to predic
 
 ## Baseline Model
 
-Our baseline model uses a Random Forest Regressor, which reduces the risk of overfitting because it aggregates the results of multiple decision trees. The subset of features we chose from our `filtered_df` dataframe are: 
+Our baseline model uses a Random Forest Regressor, which reduces the risk of overfitting because it aggregates the results of multiple decision trees. The subset of features we chose from our `filtered_df` dataframe are: `'minutes'`, `'n_steps'`, and `'n_ingredients'`, which are all discrete quantitative features. We did not need to perform any encodings because all of our features are quantitative, and can all directly be handled by decision trees. 
 
-__
-Describe your model and state the features in your model, including how many are quantitative, ordinal, and nominal, and how you performed any necessary encodings. Report the performance of your model and whether or not you believe your current model is “good” and why.
-__
+Our model has an R<sup>2</sup> value of 0.8343, meaning around 83.43% of the variance in `'n_interactions'` can be explained by the model. We believe this shows our current model is "good" as the R<sup>2</sup> value is quite high and suggests that our model can capture the significant patterns in the data.
 
 ## Final Model
 
 
 
 ## Fairness Analysis
+
+**Group X:** Recipes from earlier years (before 2011)
+
+**Group Y:** Recipes from later years (after 2011)
+
+We chose the year 2011 as our threshold because it was the median of the years retrieved from `'date'` column of the cleaned dataframe. 
+
+**Evaluation Metric:** R<sup>2</sup>
+
+**Null Hypothesis:** The regressor's accuracy is the same for both short and long recipes, and any differences observed are due to random chance.
+
+**Alternative Hypothesis:** The regressor's accuracy is higher for long recipes.
+
+**Test Statistic:** absolute difference in R<sup>2</sup> values
+
+**Significance Level:** 0.05
+
+**Resulting P-Value:** 0.00
+
+### Permutation Test Conclusion
+Since our p-value is 0.00, we reject our null hypothesis. There is sufficient evidence to suggest that the regressor's accuracy is higher for 
+
+__
+Clearly state your choice of Group X and Group Y, your evaluation metric, your null and alternative hypotheses, your choice of test statistic and significance level, the resulting 
+p-value, and your conclusion.
+__
