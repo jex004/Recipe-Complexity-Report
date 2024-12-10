@@ -99,7 +99,7 @@ Below is our cleaned dataframe `cleaned_df`
 For univariate data analysis, we examined the distribution of the the number of steps each recipe has. In the plot below, it is clear that the distribution of number of steps is skewed right, indicating that most of the recipes on [food.com](https://www.food.com/) have lower numbers of steps. The right skew of the distribution also suggests that as the number of steps increases, the number of recipes with that many steps on [food.com](https://www.food.com/) decreases.
 
 <iframe
-  src="assets/fig_n_steps.html"
+  src="assets/js/fig_n_steps.html"
   width="800"
   height="600"
   frameborder="0"
@@ -111,7 +111,7 @@ For univariate data analysis, we examined the distribution of the the number of 
 For bivariate data analysis, we examined the relationship between the distribution of the number of steps each recipe has and the number of reviews each recipe has. In the plot below, as per the trendline, we can see that as the number of steps a recipe takes increases, the number of reviews it has also increases, suggesting a positive trend between number of steps and number of reviews. Later, we can see if this relationship affects our predictions of number of reviews at all.
 
 <iframe
-  src="assets/bivariate_data.html"
+  src="assets/js/bivariate_data.html"
   width="800"
   height="600"
   frameborder="0"
@@ -121,7 +121,7 @@ For bivariate data analysis, we examined the relationship between the distributi
 The grouped table below shows the total number of interactions each year's recipes received, separated by the rating the interactions gave the recipes. This data shows us an insight into the rating distribution, possible recipe quality, and engagement patterns. For example, we can see that the total number of interactions that rated recipes a 5 has generally decreased over time, from 173,244 total interactions rating recipes a 5 in the year 2008, to 94,147 in the year 2018. We can also see that the total number of interactions that rated recipes a 1 has generally increased over time, with 891 total interactions rating a recipe a 1 in 2008, to 10,222 interactions in 2018. These trends may show the difference in how people engage with the recipes(changing from possibly choosing to leave ratings if they particularly loved a recipe in 2008, to leaving a rating if they hated a recipe by 2018), or show how the quality of recipes has gone down over the years.
 
 <iframe
-  src="assets/grouped_table.html"
+  src="assets/js/grouped_table.html"
   width="800"
   height="600"
   frameborder="0"
@@ -152,7 +152,7 @@ Unlike `'review'`, we believe that the missingness in the `'description'` column
 A plot showing the year of recipe submission by missingness of description is shown below.
 
 <iframe
-  src="assets/missingness_plot.html"
+  src="assets/js/missingness_plot.html"
   width="800"
   height="600"
   frameborder="0"
