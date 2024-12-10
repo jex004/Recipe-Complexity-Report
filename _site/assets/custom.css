@@ -1,0 +1,38 @@
+/* Set the background color of the entire page to white */
+body {
+    background-color: #fafafa !important; /* Light whitish background */
+    color: #333; /* Optional: Adjust text color for better contrast */
+}
+
+/* Set the background color of the table and its container to white */
+table {
+    background-color: #fafafa !important;
+    border-collapse: collapse; /* Ensures no space between table cells */
+    width: 100%; /* Optional: Makes table responsive */
+}
+
+/* Set the background color for each table cell */
+table td, table th {
+    background-color: #fafafa !important;
+}
+
+/* For table rows that might have alternating colors, make sure the background stays consistent */
+table tr:nth-child(even) {
+    background-color: #fafafa !important;
+}
+
+/* Ensure the header row is also styled with the same background */
+table th {
+    background-color: #fafafa !important;
+}
+
+/* For table wrappers or containers, if any */
+.table-responsive {
+    background-color: #fafafa !important;
+}
+
+/* Optional: Set code block and pre-block background to lighter colors if necessary */
+pre, code {
+    background-color: #f9f9f9 !important;  /* Lighter background for code blocks */
+    color: #333; /* Ensure the text is readable */
+}
