@@ -83,13 +83,12 @@ Below is our cleaned dataframe `cleaned_df`
 *Some outputs have been truncated for nicer viewing
 
 
-| name                                 |     id |   minutes |   contributor_id | submitted   | tags                                                                                     | nutrition                                    |   n_steps | steps                                                 | description                                           | ingredients                                           |   n_ingredients |          user_id |   recipe_id | date       |   rating | review                                                |   avg_rating |   n_interactions | is_easy   | is_kid_friendly   |
-|:-------------------------------------|-------:|----------:|-----------------:|:------------|:-----------------------------------------------------------------------------------------|:---------------------------------------------|----------:|:------------------------------------------------------|:------------------------------------------------------|:------------------------------------------------------|----------------:|-----------------:|------------:|:-----------|---------:|:------------------------------------------------------|-------------:|-----------------:|:----------|:------------------|
-| 1 brownies in the world    best ever | 333281 |        40 |           985201 | 2008-10-27  | ['60-minutes-or-less',  'time-to-make',  'course',  'main-ingredient',  'preparation'... | [138.4, 10.0, 50.0, 3.0, 3.0, 19.0, 6.0]     |        10 | ['heat the oven to 350f and arrange the rack in th... | these are the most; chocolatey, moist, rich, dense... | ['bittersweet chocolate', 'unsalted butter', 'eggs... |               9 | 386585           |      333281 | 2008-11-19 |        4 | These were pretty good, but took forever to bake. ... |            4 |                1 | False     | False             |
-| 1 in canada chocolate chip cookies   | 453467 |        45 |          1848091 | 2011-04-11  | ['60-minutes-or-less',  'time-to-make',  'cuisine',  'preparation',  'north-american'... | [595.1, 46.0, 211.0, 22.0, 13.0, 51.0, 26.0] |        12 | ['pre-heat oven the 350 degrees f', 'in a mixing b... | this is the recipe that we use at my school cafete... | ['white sugar', 'brown sugar', 'salt', 'margarine'... |              11 | 424680           |      453467 | 2012-01-26 |        5 | Originally I was gonna cut the recipe in half (jus... |            5 |                1 | False     | False             |
-| 412 broccoli casserole               | 306168 |        40 |            50969 | 2008-05-30  | ['60-minutes-or-less',  'time-to-make',  'course',  'main-ingredient',  'preparation'... | [194.8, 20.0, 6.0, 32.0, 22.0, 36.0, 3.0]    |         6 | ['preheat oven to 350 degrees', 'spray a 2 quart b... | since there are already 411 recipes for broccoli c... | ['frozen broccoli cuts', 'cream of chicken soup', ... |               9 |  29782           |      306168 | 2008-12-31 |        5 | This was one of the best broccoli casseroles that ... |            5 |                4 | True      | False             |
-| 412 broccoli casserole               | 306168 |        40 |            50969 | 2008-05-30  | ['60-minutes-or-less',  'time-to-make',  'course',  'main-ingredient',  'preparation'... | [194.8, 20.0, 6.0, 32.0, 22.0, 36.0, 3.0]    |         6 | ['preheat oven to 350 degrees', 'spray a 2 quart b... | since there are already 411 recipes for broccoli c... | ['frozen broccoli cuts', 'cream of chicken soup', ... |               9 |      1.19628e+06 |      306168 | 2009-04-13 |        5 | I made this for my son's first birthday party this... |            5 |                4 | True      | False             |
-| 412 broccoli casserole               | 306168 |        40 |            50969 | 2008-05-30  | ['60-minutes-or-less',  'time-to-make',  'course',  'main-ingredient',  'preparation'... | [194.8, 20.0, 6.0, 32.0, 22.0, 36.0, 3.0]    |         6 | ['preheat oven to 350 degrees', 'spray a 2 quart b... | since there are already 411 recipes for broccoli c... | ['frozen broccoli cuts', 'cream of chicken soup', ... |               9 | 768828           |      306168 | 2013-08-02 |        5 | Loved this.  Be sure to completely thaw the brocco... |            5 |                4 | True      | False             |
+<iframe
+  src="assets/cleaned_df.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 
 ### Univariate Data
@@ -212,23 +211,11 @@ Our model has an R<sup>2</sup> value of 0.8343, meaning around 83.43% of the var
 
 ## Final Model
 
-The features we added are `'is_kid_friendly'` and `'is_easy'`, both nominal features because they both contain boolean values. 
+The features we added are `'is_kid_friendly'` and `'is_easy'`, both nominal features because they both contain boolean values(True/False). These features were introduced because we believe they are able to capture specific aspects of a recipe influence its appeal and thus, the likelihood of receiving more ratings. Since our prediction task is focused on predicting the number of reviews a recipe receives, we believe the addition of the `'is_kid_friendly'` and `'is_easy'` columns will help create better predictions for how the suitabiliy of recipes for different demographics, like beginner cooks or families, could influence its rating count.
 
-__
-State the features you added and why they are good for the data and prediction task. Note that you can’t simply state “these features improved my accuracy”, since you’d need to choose these features and fit a model before noticing that – instead, talk about why you believe these features improved your model’s performance from the perspective of the data generating process.
-__
+The modeling algorithm we chose, like our baseline model, is a Random Forest Regressor. The hyperparameters that worked the best were `'minutes'`, `'n_steps'`, `'n_ingredients'`, `'is_kid_friendly'`, and `'is_easy'`. We decided to use Random Forest because of its ability to handle non-linear relationships, versatility, and ability to reduce the risk of oveerfitting. We used grid search and cross-validation in order to select our hyperparameters. We experimented with the number of trees and the max depths of the trees, as well as employed k-fold cross validation, before ultimately deciding to fit 5 folds. 
 
-The modeling algorithm we chose, like our baseline model, is a Random Forest Regressor. The hyperparameters that worked the best were `'minutes'`, `'n_steps'`, `'n_ingredients'`, `'is_kid_friendly'`, and `'is_easy'`. 
-
-We decided to use Random Forest because it 
-
-
-Our final model has an R<sup>2</sup> value of 0.8945, which is an improvement from our baseline model performance(R<sup>2</sup> value of0.8343).
-
-
-__
-Describe the modeling algorithm you chose, the hyperparameters that ended up performing the best, and the method you used to select hyperparameters and your overall model. Describe how your Final Model’s performance is an improvement over your Baseline Model’s performance.
-__
+Our final model has an R<sup>2</sup> value of 0.8945, which is an improvement from our baseline model performance(R<sup>2</sup> value of 0.8343). This improvement came from better feature selection, hyperparameter optimization, and reduction of overfitting.
 
 
 ## Fairness Analysis
