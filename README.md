@@ -111,7 +111,7 @@ For univariate data analysis, we examined the distribution of the the number of 
 For bivariate data analysis, we examined the relationship between the distribution of the number of steps each recipe has and the number of reviews each recipe has. In the plot below, as per the trendline, we can see that as the number of steps a recipe takes increases, the number of reviews it has also increases, suggesting a positive trend between number of steps and number of reviews. Later, we can see if this relationship affects our predictions of number of reviews at all.
 
 <iframe
-  src="assets/bivariate.html"
+  src="assets/bivariate_data.html"
   width="800"
   height="600"
   frameborder="0"
