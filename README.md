@@ -94,17 +94,23 @@ Below is our cleaned dataframe `cleaned_df`
 
 
 
-
 ### Univariate Data
 
 For univariate data analysis, we examined the distribution of the the number of steps each recipe has. In the plot below, it is clear that the distribution of number of steps is skewed right, indicating that most of the recipes on [food.com](https://www.food.com/) have lower numbers of steps. The right skew of the distribution also suggests that as the number of steps increases, the number of recipes with that many steps on [food.com](https://www.food.com/) decreases.
 
-
+<iframe
+  src="assets/fig_n_steps.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 
 ### Bivariate Data
 
 For bivariate data analysis, we examined the relationship between the distribution of the number of steps each recipe has and the number of reviews each recipe has. In the plot below, as per the trendline, we can see that as the number of steps a recipe takes increases, the number of reviews it has also increases, suggesting a positive trend between number of steps and number of reviews. Later, we can see if this relationship affects our predictions of number of reviews at all.
+
+### Interesting Aggregates
 
 
 
@@ -164,7 +170,7 @@ We believe that each of the following columns either contribute or indicate the 
 - `'minutes'` - The longer a recipe takes to complete, the more complex it may be
 - `'n_steps'` - The more steps a recipe takes, the more complex it may be
 - `'n_ingredients'` - Recipes that require more ingredients can be considered more complex
-- `'is_easy'` - Recipes that contain the easy|beginner tag may be less complex than recipes that do not contain this tag
+- `'is_easy'` - Recipes that contain the easy\|beginner tag may be less complex than recipes that do not contain this tag
 - `'is_kid_friendly'` - Recipes that contain the kid-friendly tag may be less complex than recipes that do not contain this tag
 
 We also kept the `'n_interactions'` column as it is what we are trying to predict.
