@@ -7,4 +7,5 @@ defaults:
       path: ""
     values:
       head:
-        - "<script src='/assets/js/custom.js'></script>"  # Include your custom.js in the head section of every page
+        - "<script src='/assets/js/custom.js'></script>"  
+        # Include your custom.js in the head section of every page
