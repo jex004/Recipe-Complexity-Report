@@ -141,8 +141,16 @@ Unlike `'review'`, we believe that the missingness in the `'description'` column
 
 **Significance Level:** 0.05
 
-**Hypothesis Test Conclusion:** We obtained a p-value of 0.4529. Since this is significantly greater than our significance level of 0.05, we fail to reject the null hypothesis. We do not have sufficient evidence to suggest that the missingness of recipe descriptions depends on the year the the recipe was submitted.
+**Permutation Test Conclusion:** We obtained a p-value of 0.4529. Since this is significantly greater than our significance level of 0.05, we fail to reject the null hypothesis. We do not have sufficient evidence to suggest that the missingness of recipe descriptions depends on the year the the recipe was submitted.
 
+A plot showing the year of recipe submission by missingness of description is shown below.
+
+<iframe
+  src="assets/missingness_plot.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 ## Hypothesis Testing
 
@@ -164,6 +172,14 @@ We chose a permutation test because we are trying to see whether tagging a recip
 
 Since our p-value of 0.0 is less than our significane level of 0.05, we reject our null hypothesis. We have sufficient evidence to suggest that tagging a recipe as easy significantly increases the number of reviews that the recipe receives.
 
+A plot showing the impact of recipes being tagged as easy on the number of interactions is shown below.
+
+<iframe
+  src="assets/permutation.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 ## Framing a Prediction Problem
 
@@ -216,3 +232,12 @@ We chose the year 2011 as our threshold because it was the median of the years r
 
 ### Permutation Test Conclusion
 Since our p-value is 0.00, we reject our null hypothesis. There is sufficient evidence to suggest that the regressor's accuracy is higher for long recipes. Precision parity is important here because false positives may lead to wasted time developing longer recipes when people are actually looking for shorter and simpler recipes.
+
+A plot showing the distribution of the difference in precision accuracy for long and short recipes is shown below.
+
+<iframe
+  src="assets/fairness.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
