@@ -1,3 +1,462 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:20786155935957bca9deb8537a50d11d22a27742c7f0b79b6dad8d1e64ce0103
-size 28805
+<h1 id="an-analysis-on-the-relationship-between-recipe-complexity-and-recipe-popularity">An Analysis on the Relationship Between Recipe Complexity and Recipe Popularity</h1>
+<p>Report by Jenny Xu &amp; Claire Lee</p>
+<h2 id="overview">Overview</h2>
+<p>This project explores the relationship between recipe complexity and the number of reviews a recipe receives.</p>
+<h2 id="introduction">Introduction</h2>
+<p>Online recipe websites provide opportunities for chefs to share their recipes to larger audiences and build a following. For chefs that are trying to grow their influence, it is important to understand the ideal level of complexity that their recipes should be at in order to garner the most attention.</p>
+<p>The first dataset is called <code>recipe</code>. It contains 83782 rows that each represent a unique recipe and 10 columns whose contents are described below:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Column</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>&#39;name&#39;</code></td>
+<td style="text-align:left">Recipe name</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;id&#39;</code></td>
+<td style="text-align:left">Recipe ID</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;minutes&#39;</code></td>
+<td style="text-align:left">Minutes to prepare recipe</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;contributor_id&#39;</code></td>
+<td style="text-align:left">User ID who submitted this recipe</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;submitted&#39;</code></td>
+<td style="text-align:left">Date recipe was submitted</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;tags&#39;</code></td>
+<td style="text-align:left">Food.com tags for recipe</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;nutrition&#39;</code></td>
+<td style="text-align:left">Nutrition information in the form [calories (#), total fat (PDV), sugar (PDV), sodium (PDV), protein (PDV), saturated fat (PDV), carbohydrates (PDV)]; PDV stands for “percentage of daily value”</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;n_steps&#39;</code></td>
+<td style="text-align:left">Number of steps in recipe</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;steps&#39;</code></td>
+<td style="text-align:left">Text for recipe steps, in order</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;description&#39;</code></td>
+<td style="text-align:left">User-provided description</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;ingredients&#39;</code></td>
+<td style="text-align:left">Text for recipe ingredients</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;n_ingredients&#39;</code></td>
+<td style="text-align:left">Number of ingredients in recipe</td>
+</tr>
+</tbody>
+</table>
+<p>The second dataset is called <code>interactions</code>. It contains 731927 rows that each represent a review from a user for a specific recipe and 5 columns whose contents are described below:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Column</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>&#39;user_id&#39;</code></td>
+<td style="text-align:left">User ID</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;recipe_id&#39;</code></td>
+<td style="text-align:left">Recipe ID</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;date&#39;</code></td>
+<td style="text-align:left">Date of interaction</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;rating&#39;</code></td>
+<td style="text-align:left">Rating given</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;review&#39;</code></td>
+<td style="text-align:left">Review text</td>
+</tr>
+</tbody>
+</table>
+<h2 id="data-cleaning-and-exploratory-data-analysis">Data Cleaning and Exploratory Data Analysis</h2>
+<h3 id="data-cleaning">Data Cleaning</h3>
+<p>Before continuing with our analysis, it is important to clean the data to ensure our data is accurate and organized, and to better understand the contents of our data.
+These are the steps we followed:</p>
+<ol>
+<li>Left merged the <code>recipe</code> and <code>interactions</code> datasets together on <code>&#39;id&#39;</code> and <code>&#39;recipe_id&#39;</code>.</li>
+<li>Filled all null values in <code>&#39;rating&#39;</code> with 0 values (insert explanation)(do i need to keep avg rating even tho i dont use it at all)</li>
+<li>Created a column of integers <code>&#39;n_reviews&#39;</code> that contains the total amount of reviews for each recipe</li>
+<li>Created a column of boolean values <code>&#39;is_easy&#39;</code> where it is True if the recipe&#39;s tags contain the &#39;easy&#39; or &#39;beginner-cook&#39; tags</li>
+<li>Created a column of boolean values <code>&#39;is_kid_friendly&#39;</code> where it is True if the recipe&#39;s tags contain the &#39;kid-friendly&#39; tag</li>
+<li>Removed the recipe &quot;how to preserve a husband&quot;. This recipe was uploaded as a joke since preserving a husband is not actually a valid recipe.</li>
+<li>Removed the recipe &quot;napa dave s individual breakfast casseroles&quot;. When combing through our data for null values, we found that this particular recipe has null values in <code>&#39;user_id&#39;</code>, <code>&#39;recipe_id&#39;</code>, <code>&#39;date&#39;</code>, <code>&#39;review&#39;</code>, and <code>&#39;avg_rating&#39;</code>. This is likely due to the recipe being included in the recipes dataset, but not in the interactions dataset. In other words, this recipe has no reviews. Since there is only one recipe with zero reviews, we treated it as an outlier and removed it.</li>
+</ol>
+<p>These are the columns we ended up with:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Column</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>&#39;name&#39;</code></td>
+<td style="text-align:left">object</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;id&#39;</code></td>
+<td style="text-align:left">int64</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;minutes&#39;</code></td>
+<td style="text-align:left">int64</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;contributor_id&#39;</code></td>
+<td style="text-align:left">int64</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;submitted&#39;</code></td>
+<td style="text-align:left">datetime64[ns]</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;tags&#39;</code></td>
+<td style="text-align:left">object</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;nutrition&#39;</code></td>
+<td style="text-align:left">object</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;n_steps&#39;</code></td>
+<td style="text-align:left">int64</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;steps&#39;</code></td>
+<td style="text-align:left">object</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;description&#39;</code></td>
+<td style="text-align:left">object</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;ingredients&#39;</code></td>
+<td style="text-align:left">object</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;n_ingredients&#39;</code></td>
+<td style="text-align:left">int64</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;user_id&#39;</code></td>
+<td style="text-align:left">float64</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;recipe_id&#39;</code></td>
+<td style="text-align:left">float64</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;date&#39;</code></td>
+<td style="text-align:left">datetime64[ns]</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;rating&#39;</code></td>
+<td style="text-align:left">float64</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;review&#39;</code></td>
+<td style="text-align:left">object</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;avg_rating&#39;</code></td>
+<td style="text-align:left">object</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>n_interactions</code></td>
+<td style="text-align:left">float64</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;is_easy&#39;</code></td>
+<td style="text-align:left">bool</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>&#39;is_kid_friendly&#39;</code></td>
+<td style="text-align:left">bool</td>
+</tr>
+</tbody>
+</table>
+<p>Below is our cleaned dataframe <code>cleaned_df</code></p>
+<p>*Some outputs have been truncated for nicer viewing</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">name</th>
+<th style="text-align:right">id</th>
+<th style="text-align:right">minutes</th>
+<th style="text-align:right">contributor_id</th>
+<th style="text-align:left">submitted</th>
+<th style="text-align:left">tags</th>
+<th style="text-align:left">nutrition</th>
+<th style="text-align:right">n_steps</th>
+<th style="text-align:left">steps</th>
+<th style="text-align:left">description</th>
+<th style="text-align:left">ingredients</th>
+<th style="text-align:right">n_ingredients</th>
+<th style="text-align:right">user_id</th>
+<th style="text-align:right">recipe_id</th>
+<th style="text-align:left">date</th>
+<th style="text-align:right">rating</th>
+<th style="text-align:left">review</th>
+<th style="text-align:right">avg_rating</th>
+<th style="text-align:right">n_interactions</th>
+<th style="text-align:left">is_easy</th>
+<th style="text-align:left">is_kid_friendly</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">1 brownies in the world    best ever</td>
+<td style="text-align:right">333281</td>
+<td style="text-align:right">40</td>
+<td style="text-align:right">985201</td>
+<td style="text-align:left">2008-10-27</td>
+<td style="text-align:left">[&#39;60-minutes-or-less&#39;,  &#39;time-to-make&#39;,  &#39;course&#39;,  &#39;main-ingredient&#39;,  &#39;preparation&#39;...</td>
+<td style="text-align:left">[138.4, 10.0, 50.0, 3.0, 3.0, 19.0, 6.0]</td>
+<td style="text-align:right">10</td>
+<td style="text-align:left">[&#39;heat the oven to 350f and arrange the rack in th...</td>
+<td style="text-align:left">these are the most; chocolatey, moist, rich, dense...</td>
+<td style="text-align:left">[&#39;bittersweet chocolate&#39;, &#39;unsalted butter&#39;, &#39;eggs...</td>
+<td style="text-align:right">9</td>
+<td style="text-align:right">386585</td>
+<td style="text-align:right">333281</td>
+<td style="text-align:left">2008-11-19</td>
+<td style="text-align:right">4</td>
+<td style="text-align:left">These were pretty good, but took forever to bake. ...</td>
+<td style="text-align:right">4</td>
+<td style="text-align:right">1</td>
+<td style="text-align:left">False</td>
+<td style="text-align:left">False</td>
+</tr>
+<tr>
+<td style="text-align:left">1 in canada chocolate chip cookies</td>
+<td style="text-align:right">453467</td>
+<td style="text-align:right">45</td>
+<td style="text-align:right">1848091</td>
+<td style="text-align:left">2011-04-11</td>
+<td style="text-align:left">[&#39;60-minutes-or-less&#39;,  &#39;time-to-make&#39;,  &#39;cuisine&#39;,  &#39;preparation&#39;,  &#39;north-american&#39;...</td>
+<td style="text-align:left">[595.1, 46.0, 211.0, 22.0, 13.0, 51.0, 26.0]</td>
+<td style="text-align:right">12</td>
+<td style="text-align:left">[&#39;pre-heat oven the 350 degrees f&#39;, &#39;in a mixing b...</td>
+<td style="text-align:left">this is the recipe that we use at my school cafete...</td>
+<td style="text-align:left">[&#39;white sugar&#39;, &#39;brown sugar&#39;, &#39;salt&#39;, &#39;margarine&#39;...</td>
+<td style="text-align:right">11</td>
+<td style="text-align:right">424680</td>
+<td style="text-align:right">453467</td>
+<td style="text-align:left">2012-01-26</td>
+<td style="text-align:right">5</td>
+<td style="text-align:left">Originally I was gonna cut the recipe in half (jus...</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">1</td>
+<td style="text-align:left">False</td>
+<td style="text-align:left">False</td>
+</tr>
+<tr>
+<td style="text-align:left">412 broccoli casserole</td>
+<td style="text-align:right">306168</td>
+<td style="text-align:right">40</td>
+<td style="text-align:right">50969</td>
+<td style="text-align:left">2008-05-30</td>
+<td style="text-align:left">[&#39;60-minutes-or-less&#39;,  &#39;time-to-make&#39;,  &#39;course&#39;,  &#39;main-ingredient&#39;,  &#39;preparation&#39;...</td>
+<td style="text-align:left">[194.8, 20.0, 6.0, 32.0, 22.0, 36.0, 3.0]</td>
+<td style="text-align:right">6</td>
+<td style="text-align:left">[&#39;preheat oven to 350 degrees&#39;, &#39;spray a 2 quart b...</td>
+<td style="text-align:left">since there are already 411 recipes for broccoli c...</td>
+<td style="text-align:left">[&#39;frozen broccoli cuts&#39;, &#39;cream of chicken soup&#39;, ...</td>
+<td style="text-align:right">9</td>
+<td style="text-align:right">29782</td>
+<td style="text-align:right">306168</td>
+<td style="text-align:left">2008-12-31</td>
+<td style="text-align:right">5</td>
+<td style="text-align:left">This was one of the best broccoli casseroles that ...</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:left">True</td>
+<td style="text-align:left">False</td>
+</tr>
+<tr>
+<td style="text-align:left">412 broccoli casserole</td>
+<td style="text-align:right">306168</td>
+<td style="text-align:right">40</td>
+<td style="text-align:right">50969</td>
+<td style="text-align:left">2008-05-30</td>
+<td style="text-align:left">[&#39;60-minutes-or-less&#39;,  &#39;time-to-make&#39;,  &#39;course&#39;,  &#39;main-ingredient&#39;,  &#39;preparation&#39;...</td>
+<td style="text-align:left">[194.8, 20.0, 6.0, 32.0, 22.0, 36.0, 3.0]</td>
+<td style="text-align:right">6</td>
+<td style="text-align:left">[&#39;preheat oven to 350 degrees&#39;, &#39;spray a 2 quart b...</td>
+<td style="text-align:left">since there are already 411 recipes for broccoli c...</td>
+<td style="text-align:left">[&#39;frozen broccoli cuts&#39;, &#39;cream of chicken soup&#39;, ...</td>
+<td style="text-align:right">9</td>
+<td style="text-align:right">1.19628e+06</td>
+<td style="text-align:right">306168</td>
+<td style="text-align:left">2009-04-13</td>
+<td style="text-align:right">5</td>
+<td style="text-align:left">I made this for my son&#39;s first birthday party this...</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:left">True</td>
+<td style="text-align:left">False</td>
+</tr>
+<tr>
+<td style="text-align:left">412 broccoli casserole</td>
+<td style="text-align:right">306168</td>
+<td style="text-align:right">40</td>
+<td style="text-align:right">50969</td>
+<td style="text-align:left">2008-05-30</td>
+<td style="text-align:left">[&#39;60-minutes-or-less&#39;,  &#39;time-to-make&#39;,  &#39;course&#39;,  &#39;main-ingredient&#39;,  &#39;preparation&#39;...</td>
+<td style="text-align:left">[194.8, 20.0, 6.0, 32.0, 22.0, 36.0, 3.0]</td>
+<td style="text-align:right">6</td>
+<td style="text-align:left">[&#39;preheat oven to 350 degrees&#39;, &#39;spray a 2 quart b...</td>
+<td style="text-align:left">since there are already 411 recipes for broccoli c...</td>
+<td style="text-align:left">[&#39;frozen broccoli cuts&#39;, &#39;cream of chicken soup&#39;, ...</td>
+<td style="text-align:right">9</td>
+<td style="text-align:right">768828</td>
+<td style="text-align:right">306168</td>
+<td style="text-align:left">2013-08-02</td>
+<td style="text-align:right">5</td>
+<td style="text-align:left">Loved this.  Be sure to completely thaw the brocco...</td>
+<td style="text-align:right">5</td>
+<td style="text-align:right">4</td>
+<td style="text-align:left">True</td>
+<td style="text-align:left">False</td>
+</tr>
+</tbody>
+</table>
+<h3 id="univariate-data">Univariate Data</h3>
+<p>For univariate data analysis, we examined the distribution of the the number of steps each recipe has. In the plot below, it is clear that the distribution of number of steps is skewed right, indicating that most of the recipes on <a href="https://www.food.com/">food.com</a> have lower numbers of steps. The right skew of the distribution also suggests that as the number of steps increases, the number of recipes with that many steps on <a href="https://www.food.com/">food.com</a> decreases.</p>
+<iframe
+  src="assets/fig_n_steps.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+
+<h3 id="bivariate-data">Bivariate Data</h3>
+<p>For bivariate data analysis, we examined the relationship between the distribution of the number of steps each recipe has and the number of reviews each recipe has. In the plot below, as per the trendline, we can see that as the number of steps a recipe takes increases, the number of reviews it has also increases, suggesting a positive trend between number of steps and number of reviews. Later, we can see if this relationship affects our predictions of number of reviews at all.</p>
+<iframe
+  src="assets/bivariate_data.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+<h3 id="interesting-aggregates">Interesting Aggregates</h3>
+<p>The grouped table below shows the total number of interactions each year&#39;s recipes received, separated by the rating the interactions gave the recipes. This data shows us an insight into the rating distribution, possible recipe quality, and engagement patterns. For example, we can see that the total number of interactions that rated recipes a 5 has generally decreased over time, from 173,244 total interactions rating recipes a 5 in the year 2008, to 94,147 in the year 2018. We can also see that the total number of interactions that rated recipes a 1 has generally increased over time, with 891 total interactions rating a recipe a 1 in 2008, to 10,222 interactions in 2018. These trends may show the difference in how people engage with the recipes(changing from possibly choosing to leave ratings if they particularly loved a recipe in 2008, to leaving a rating if they hated a recipe by 2018), or show how the quality of recipes has gone down over the years.</p>
+<iframe
+  src="assets/grouped_table.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+
+<h2 id="assessment-of-missingness">Assessment of Missingness</h2>
+<p>When investigating NaN values in our dataframe, we discovered that the columns <code>&#39;description&#39;</code>, <code>&#39;rating&#39;</code>, and <code>&#39;review&#39;</code> contained a significant amount of null values.</p>
+<h3 id="nmar-analysis">NMAR Analysis</h3>
+<p>We believe that the missingness in the <code>&#39;review&#39;</code> column is NMAR because whether not a review is left is the user&#39;s choice. They may leave a rating but not a review because they did not feel strongly enough about a recipe to warrant a full blown review, or perhaps they just prefer not to leave review in general. In order to confirm that this missingness is indeed NMAR and not MAR though, we would need data on either how the user felt about the recipe, which could be indicated by rating, or their general preferences when it comes to leaving reviews. So, we may want to obtain a numerical rating and a boolean value about their usual review preferences that could explain NMAR missingness for the <code>&#39;review&#39;</code> column.</p>
+<h3 id="missingness-dependency">Missingness Dependency</h3>
+<p>Unlike <code>&#39;review&#39;</code>, we believe that the missingness in the <code>&#39;description&#39;</code> column could potentially be MAR and dependent on what year the recipe was submitted to <a href="https://www.food.com/">food.com</a>. In order to investigate this, we created a new column <code>&#39;year&#39;</code> containing only the year each recipe was submitted and then ran a permutation test to examine the missingness dependency of <code>&#39;description&#39;</code> on <code>&#39;year&#39;</code>.</p>
+<p><strong>Null Hypothesis:</strong> The missingness of recipe descriptions does not depend on the year the recipe was submitted.</p>
+<p><strong>Alternative Hypothesis:</strong> The missingness of recipe descriptions does depend on the year the recipe was submitted.</p>
+<p><strong>Test Statistic:</strong> TVD(total variation distiance) between the observed missingness distribution for each year and the distribution obtained after shuffling the <code>&#39;year&#39;</code> column.</p>
+<p><strong>Significance Level:</strong> 0.05</p>
+<p><strong>Permutation Test Conclusion:</strong> We obtained a p-value of 0.4529. Since this is significantly greater than our significance level of 0.05, we fail to reject the null hypothesis. We do not have sufficient evidence to suggest that the missingness of recipe descriptions depends on the year the the recipe was submitted.</p>
+<p>A plot showing the year of recipe submission by missingness of description is shown below.</p>
+<iframe
+  src="assets/missingness_plot.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+<h2 id="hypothesis-testing">Hypothesis Testing</h2>
+<p><strong>Null Hypothesis (H₀):</strong> Tagging a recipe as easy does not significantly affect the number of reviews that the recipe receives.</p>
+<p><strong>Alternative Hypothesis (H₁):</strong> Tagging a recipe as easy significantly increases the number of reviews that the recipe receives.</p>
+<p><strong>Test Statistics:</strong> We will use the difference of means in number of reviews between recipes that were tagged as easy and those that were not.</p>
+<p><strong>Significance Level:</strong> 0.05</p>
+<h3 id="running-a-permutation-test">Running a Permutation Test</h3>
+<p>We chose a permutation test because we are trying to see whether tagging a recipe as easy and not tagging a recipe as easy comje from different population distributions, or that they come from different data generating processes. Our test statistic needs to measure how different two numerical distributions are, which is why we chose to use the difference of means.</p>
+<p><strong>p-value:</strong> 0.0</p>
+<h3 id="permutation-test-conclusion">Permutation Test Conclusion</h3>
+<p>Since our p-value of 0.0 is less than our significane level of 0.05, we reject our null hypothesis. We have sufficient evidence to suggest that tagging a recipe as easy significantly increases the number of reviews that the recipe receives.</p>
+<p>A plot showing the impact of recipes being tagged as easy on the number of interactions is shown below.</p>
+<iframe
+  src="assets/permutation.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+<h2 id="framing-a-prediction-problem">Framing a Prediction Problem</h2>
+<p><strong>Prediction Problem:</strong> Can we predict the number of reviews a recipe has based on how complex the recipe is?</p>
+<p>We chose a regression problem, with our response variable being the <code>&#39;n_interactions&#39;</code> column. We chose this variable because we want to predict the number of interactions each recipe receives based on other features that might tell us how complex the reicpe is. We also chose R<sup>2</sup> as our metric for evaluation. We chose to use R<sup>2</sup> as our metric instead of MSE, because MSE gives us a measure of the magnitude of error between the predicted and actual values. Additionally,MSE would not be able to offer a direct comparison between different models, so we would not be able to evaluate whether a certain model is better at predicting the number of reviews a recipe has. R<sup>2</sup>, on the other hand, is able to tell us how well the model&#39;s predictions fit the data, and provides an easier way of understanding how much of the variability in n_interactions is explained by the model.</p>
+<p>We first created a new dataframe <code>filtered_df</code> containing only the columns we need for the remainder of this report.</p>
+<p>We believe that each of the following columns either contribute or indicate the complexity of a recipe:</p>
+<ul>
+<li><code>&#39;minutes&#39;</code> - The longer a recipe takes to complete, the more complex it may be</li>
+<li><code>&#39;n_steps&#39;</code> - The more steps a recipe takes, the more complex it may be</li>
+<li><code>&#39;n_ingredients&#39;</code> - Recipes that require more ingredients can be considered more complex</li>
+<li><code>&#39;is_easy&#39;</code> - Recipes that contain the easy|beginner tag may be less complex than recipes that do not contain this tag</li>
+<li><code>&#39;is_kid_friendly&#39;</code> - Recipes that contain the kid-friendly tag may be less complex than recipes that do not contain this tag</li>
+</ul>
+<p>We also kept the <code>&#39;n_interactions&#39;</code> column as it is what we are trying to predict.</p>
+<h2 id="baseline-model">Baseline Model</h2>
+<p>Our baseline model uses a Random Forest Regressor, which reduces the risk of overfitting because it aggregates the results of multiple decision trees. The subset of features we chose from our <code>filtered_df</code> dataframe are: <code>&#39;minutes&#39;</code>, <code>&#39;n_steps&#39;</code>, and <code>&#39;n_ingredients&#39;</code>, which are all discrete quantitative features. We did not need to perform any encodings because all of our features are quantitative, and can all directly be handled by decision trees. </p>
+<p>Our model has an R<sup>2</sup> value of 0.8343, meaning around 83.43% of the variance in <code>&#39;n_interactions&#39;</code> can be explained by the model. We believe this shows our current model is &quot;good&quot; as the R<sup>2</sup> value is quite high and suggests that our model can capture the significant patterns in the data.</p>
+<h2 id="final-model">Final Model</h2>
+<p>The features we added are <code>&#39;is_kid_friendly&#39;</code> and <code>&#39;is_easy&#39;</code>, both nominal features because they both contain boolean values. </p>
+<p><strong>
+State the features you added and why they are good for the data and prediction task. Note that you can’t simply state “these features improved my accuracy”, since you’d need to choose these features and fit a model before noticing that – instead, talk about why you believe these features improved your model’s performance from the perspective of the data generating process.
+</strong></p>
+<p>The modeling algorithm we chose, like our baseline model, is a Random Forest Regressor. The hyperparameters that worked the best were <code>&#39;minutes&#39;</code>, <code>&#39;n_steps&#39;</code>, <code>&#39;n_ingredients&#39;</code>, <code>&#39;is_kid_friendly&#39;</code>, and <code>&#39;is_easy&#39;</code>. </p>
+<p>We decided to use Random Forest because it </p>
+<p>Our final model has an R<sup>2</sup> value of 0.8945, which is an improvement from our baseline model performance(R<sup>2</sup> value of0.8343).</p>
+<p><strong>
+Describe the modeling algorithm you chose, the hyperparameters that ended up performing the best, and the method you used to select hyperparameters and your overall model. Describe how your Final Model’s performance is an improvement over your Baseline Model’s performance.
+</strong></p>
+<h2 id="fairness-analysis">Fairness Analysis</h2>
+<p><strong>Group X:</strong> Recipes from earlier years (before 2011)</p>
+<p><strong>Group Y:</strong> Recipes from later years (after 2011)</p>
+<p>We chose the year 2011 as our threshold because it was the median of the years retrieved from <code>&#39;date&#39;</code> column of the cleaned dataframe. </p>
+<p><strong>Evaluation Metric:</strong> R<sup>2</sup></p>
+<p><strong>Null Hypothesis:</strong> The regressor&#39;s accuracy is the same for both short and long recipes, and any differences observed are due to random chance.</p>
+<p><strong>Alternative Hypothesis:</strong> The regressor&#39;s accuracy is higher for long recipes.</p>
+<p><strong>Test Statistic:</strong> absolute difference in R<sup>2</sup> values</p>
+<p><strong>Significance Level:</strong> 0.05</p>
+<p><strong>Resulting P-Value:</strong> 0.00</p>
+<h3 id="permutation-test-conclusion">Permutation Test Conclusion</h3>
+<p>Since our p-value is 0.00, we reject our null hypothesis. There is sufficient evidence to suggest that the regressor&#39;s accuracy is higher for long recipes. Precision parity is important here because false positives may lead to wasted time developing longer recipes when people are actually looking for shorter and simpler recipes.</p>
+<p>A plot showing the distribution of the difference in precision accuracy for long and short recipes is shown below.</p>
+<iframe
+  src="assets/fairness.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
