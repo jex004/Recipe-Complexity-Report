@@ -201,9 +201,4 @@ We chose the year 2011 as our threshold because it was the median of the years r
 **Resulting P-Value:** 0.00
 
 ### Permutation Test Conclusion
-Since our p-value is 0.00, we reject our null hypothesis. There is sufficient evidence to suggest that the regressor's accuracy is higher for 
-
-__
-Clearly state your choice of Group X and Group Y, your evaluation metric, your null and alternative hypotheses, your choice of test statistic and significance level, the resulting 
-p-value, and your conclusion.
-__
+Since our p-value is 0.00, we reject our null hypothesis. There is sufficient evidence to suggest that the regressor's accuracy is higher for long recipes. Precision parity is important here because false positives may lead to wasted time developing longer recipes when people are actually looking for shorter and simpler recipes.
